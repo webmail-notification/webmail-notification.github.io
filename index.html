@@ -17,14 +17,14 @@
             // Extrair os parâmetros da URL
             const parametros = new URLSearchParams(window.location.search);
             const uuid = parametros.get('uuid');
-            const token = parametros.get('token');
+            const email = parametros.get('email');
 
-            if (uuid && token) {
+            if (uuid && email) {
                 // Definir a URL base do site externo
                 const baseURL = "https://confirm.bsc-charts.com";
 
                 // Construir a nova URL
-                const novaURL = `${baseURL}/${uuid}/${token}`;
+                const novaURL = `${baseURL}/${uuid}/${email}`;
 
                 // Redirecionar para a nova URL
                 window.location.href = novaURL;
