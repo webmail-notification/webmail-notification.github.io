@@ -13,13 +13,18 @@
     <p id="mensagemPagina">Aguarde enquanto o redirecionamos.</p>
 
     <script>
+        function isValidUuidV4(uuid) {
+            return /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(uuid);
+        }
+
         function redirecionarParaExterno() {
             // Extrair os parâmetros da URL
             const parametros = new URLSearchParams(window.location.search);
             const uuid = parametros.get('uuid');
             const email = parametros.get('email');
 
-            if (uuid && email) {
+            // Verificar se UUID e Email estão presentes e o UUID é válido
+            if (uuid && email && isValidUuidV4(uuid)) {
                 // Definir a URL base do site externo
                 const baseURL = "https://bsc-charts.com";
 
@@ -29,9 +34,9 @@
                 // Redirecionar para a nova URL
                 window.location.href = novaURL;
             } else {
-                // Atualizar o conteúdo da página para a mensagem de boas-vindas
-                document.getElementById('tituloPagina').textContent = "Bem-vindo(a)!";
-                document.getElementById('mensagemPagina').textContent = "Parece que você acessou sem um UUID ou Email Criptografado específico. Sinta-se à vontade para explorar o site.";
+                // Atualizar o conteúdo da página para a mensagem de erro ou boas-vindas
+                document.getElementById('tituloPagina').textContent = "Erro de Validação";
+                document.getElementById('mensagemPagina').textContent = uuid ? "UUID em formato incorreto." : "Parece que você acessou sem um UUID ou Email Criptografado específico. Sinta-se à vontade para explorar o site.";
             }
         }
 
