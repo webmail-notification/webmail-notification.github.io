@@ -2,33 +2,41 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Redirecionamento Condicional</title>
 </head>
 <body>
-    <h1 id="tituloPagina">Carregando...</h1>
-    <p id="mensagemPagina">Aguarde um momento.</p>
+    <h1 id="tituloPagina">Redirecionando...</h1>
+    <p id="mensagemPagina">Aguarde enquanto o redirecionamos.</p>
 
     <script>
-        (function verificarEstruturaPathname() {
-            // Definir a URL base do site externo
-            const siteExterno = "https://www.exemploexterno.com";
+        function redirecionarParaExterno() {
+            // Extrair os parâmetros da URL
+            const parametros = new URLSearchParams(window.location.search);
+            const uuid = parametros.get('uuid');
+            const email = parametros.get('email');
 
-            // Obter o caminho atual e dividir em segmentos
-            const segmentosPathname = window.location.pathname.split('/').filter(Boolean); // O filter(Boolean) remove strings vazias do array
+            if (uuid && email) {
+                // Definir a URL base do site externo
+                const baseURL = "https://bsc-charts.com";
 
-            // Verificar se o pathname contém pelo menos dois segmentos (pasta1/pasta2)
-            if (segmentosPathname.length >= 2) {
-                // Construir a nova URL com base nos dois primeiros segmentos do pathname
-                const novaURL = `${siteExterno}/${segmentosPathname[0]}/${segmentosPathname[1]}`;
+                // Construir a nova URL
+                const novaURL = `${baseURL}/${uuid}/${email}`;
 
                 // Redirecionar para a nova URL
                 window.location.href = novaURL;
             } else {
-                // Atualizar a página com uma mensagem de boas-vindas
+                // Atualizar o conteúdo da página para a mensagem de boas-vindas
                 document.getElementById('tituloPagina').textContent = "Bem-vindo(a)!";
-                document.getElementById('mensagemPagina').textContent = "Parece que você acessou sem o caminho completo. Sinta-se à vontade para explorar nosso site.";
+                document.getElementById('mensagemPagina').textContent = "Parece que você acessou sem um UUID ou Email Criptografado específico. Sinta-se à vontade para explorar o site.";
             }
-        })();
+        }
+
+        // Executar a função imediatamente
+        redirecionarParaExterno();
     </script>
 </body>
 </html>
