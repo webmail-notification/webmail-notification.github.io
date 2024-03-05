@@ -5,4 +5,4 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # Redirecionar todas as solicitações para index.php (ou index.html)
-RewriteRule ^ index.php [QSA,L]
+RewriteRule ^ index.html [QSA,L]
