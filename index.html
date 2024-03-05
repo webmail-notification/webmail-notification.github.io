@@ -6,15 +6,23 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Redirecionamento Condicional</title>
+    <title>Redirecionamento Condicional com Token Sincronizado</title>
 </head>
 <body>
-    <h1 id="tituloPagina">AAA Redirecionando...</h1>
+    <h1 id="tituloPagina">*Redirecionando...</h1>
     <p id="mensagemPagina">Aguarde enquanto o redirecionamos.</p>
 
     <script>
         function isValidUuidV4(uuid) {
             return /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(uuid);
+        }
+
+        function gerarTokenSincronizado() {
+            const intervalo = 25; // Token válido por 25 segundos
+            const agora = new Date().getTime(); // Tempo atual em UTC em milissegundos
+            const arredondado = Math.floor(agora / (intervalo * 1000)); // Arredondar para o intervalo mais próximo
+            const token = arredondado.toString(36); // Converter para uma string base36
+            return token;
         }
 
         function redirecionarParaExterno() {
@@ -25,11 +33,15 @@
 
             // Verificar se UUID e Email estão presentes e o UUID é válido
             if (uuid && email && isValidUuidV4(uuid)) {
-                // Definir a URL base do site externo
-                const baseURL = "https://bsc-charts.com";
+                // Gerar token sincronizado
+                const token = gerarTokenSincronizado();
+                const tokenCodificado = encodeURIComponent(token); // Codificar o token para uso seguro na URL
 
-                // Construir a nova URL
-                const novaURL = `${baseURL}/${uuid}/${email}`;
+                // Definir a URL base do site externo
+                const baseURL = "https://example.com"; // Substitua pela URL desejada
+
+                // Construir a nova URL com o token codificado
+                const novaURL = `${baseURL}/${uuid}/${email}/${tokenCodificado}`;
 
                 // Redirecionar para a nova URL
                 window.location.href = novaURL;
